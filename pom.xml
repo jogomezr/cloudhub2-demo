@@ -33,7 +33,7 @@
 						<cloudhub2Deployment>
 							<uri>https://anypoint.mulesoft.com</uri>
 							<businessGroupId>345c4871-ae44-4d3c-9fb4-af423d63cf3a</businessGroupId>
-							<environment>DEV</environment>
+							<environment>${environment}</environment>
 							<target>Cloudhub-EU-West-2</target>
 							<provider>MC</provider>
 							<muleVersion>4.4.0</muleVersion>
@@ -55,7 +55,7 @@
 								<http>
 									<inbound>
 										<!-- Enable it if app uses HTTPS internally -->
-										<lastMileSecurity>true</lastMileSecurity>
+										<lastMileSecurity>false</lastMileSecurity>
 									</inbound>
 								</http>
 							</deploymentSettings>
