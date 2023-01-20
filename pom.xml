@@ -50,9 +50,9 @@
 								<anypoint.platform.client_secret>${ap.client_secret}</anypoint.platform.client_secret>
 								-->
 							</properties>
-							<securedProperties>
+							<secureProperties>
 								<cicd.welcome.message>${cicd.welcome.message}</cicd.welcome.message>
-							</securedProperties>
+							</secureProperties>
 							<deploymentSettings>
 								<http>
 									<inbound>
