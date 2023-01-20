@@ -1,1 +1,1 @@
-# cloudhub2-demo
+# cloudhub2-demo app
