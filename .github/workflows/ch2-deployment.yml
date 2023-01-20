@@ -63,7 +63,7 @@ jobs:
                 "password": "${{ secrets.ANYPOINT_PASSWORD }}"
             }
             ]
-          
+  
       # maven build command, could add other flags if needed
       - name: Build
         run: mvn -B package --file pom.xml
@@ -80,3 +80,45 @@ jobs:
         with:
             name: artifacts
             path: target/*.jar
+            
+            
+            
+# Steps for executing the deployment against Cloudhub2.0 Anypoint Platform
+  deploy:
+    runs-on: ubuntu-latest
+    steps:    
+    - uses: actions/checkout@v3
+    - uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - uses: actions/download-artifact@v3
+      with:
+        name: artifacts
+
+    - uses: s4u/maven-settings-action@v2.6.0
+      with:
+        servers: |
+          [{
+              "id": "anypoint-exchange-v3",
+              "username": "${{ secrets.ANYPOINT_USERNAME }}",
+              "password": "${{ secrets.ANYPOINT_PASSWORD }}"
+          },
+          {
+              "id": "anypoint-exchange-v3-student-deployment",
+              "username": "${{ secrets.ANYPOINT_USERNAME }}",
+              "password": "${{ secrets.ANYPOINT_PASSWORD }}"
+          },
+          {
+                "id": "cloudhub-deploy",
+                "username": "${{ secrets.ANYPOINT_USERNAME }}",
+                "password": "${{ secrets.ANYPOINT_PASSWORD }}"
+          }]
+    - name: Deploy to CloudHub 2
+      env:
+        AUTHOR: "Jose Alfredo"
+      run: |
+        artifactName=$(ls *.jar | head -1)
+        mvn deploy --file pom.xml -DmuleDeploy -Dcicd.welcome.message="Welcome from Github and Cloudhub2"  
