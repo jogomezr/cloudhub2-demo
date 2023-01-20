@@ -3,18 +3,18 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mycompany</groupId>
-	<artifactId>mule-cicd-actions-example</artifactId>
+	<artifactId>hello-world-jagr-20jan</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
-	<name>mule-cicd-actions-example</name>
+	<name>hello-world-jagr-20jan</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<app.runtime>4.4.0-20220420</app.runtime>
-		<mule.maven.plugin.version>3.5.4</mule.maven.plugin.version>
+		<mule.maven.plugin.version>3.8.2</mule.maven.plugin.version>
 	</properties>
 
 	<build>
@@ -32,23 +32,29 @@
 					<configuration>
 						<cloudhub2Deployment>
 							<uri>https://anypoint.mulesoft.com</uri>
-							<businessGroupId>e6d8b1ce-9611-4324-b4d0-d3d1e27fe6f7</businessGroupId>
-							<environment>Sandbox</environment>
-							<target>Cloudhub-US-East-2</target>
+							<businessGroupId>345c4871-ae44-4d3c-9fb4-af423d63cf3a</businessGroupId>
+							<environment>DEV</environment>
+							<target>Cloudhub-EU-West-2</target>
 							<provider>MC</provider>
 							<muleVersion>4.4.0</muleVersion>
-							<server>cloudhub-deploy</server>							<!-- reads credentials from settings.xml -->
+							<!-- reads credentials from settings.xml -->
+							<server>cloudhub-deploy</server>
 							<applicationName>${project.name}</applicationName>
 							<replicas>1</replicas>
 							<vCores>0.1</vCores>
+							<!-- timout of 4 minutes -->
 							<deploymentTimeout>240000</deploymentTimeout>
 							<properties>
+								<!--
 								<anypoint.platform.client_id>${ap.client_id}</anypoint.platform.client_id>
 								<anypoint.platform.client_secret>${ap.client_secret}</anypoint.platform.client_secret>
+								-->
+								<cicd.welcome.message>${cicd.welcome.message}</cicd.welcome.message>
 							</properties>
 							<deploymentSettings>
 								<http>
 									<inbound>
+										<!-- Enable it if app uses HTTPS internally -->
 										<lastMileSecurity>true</lastMileSecurity>
 									</inbound>
 								</http>
@@ -119,5 +125,14 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+	
+     <distributionManagement>
+        <repository>
+          <id>anypoint-exchange-v3-student-deployment</id>
+          <name>Student05 Anypoint Exchange</name>
+          <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/345c4871-ae44-4d3c-9fb4-af423d63cf3a/maven</url>
+          <layout>default</layout>
+        </repository>
+     </distributionManagement>
 
 </project>
